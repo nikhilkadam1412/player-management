@@ -88,6 +88,16 @@ app.post('/json/add-team', async (req, res) => {
   }
 })
 
+app.get('/json/teams', async (req, res) => {
+  try {
+    const players = await Team.find();
+    res.status(200).json(players)
+  } catch (error) {
+    console.log("Error fetching the data: ",error);
+    res.status(500).status({success: false, error: "Falie to fetch the teams"})
+  }
+})
+
 app.get('/json/player-list', async(req, res) => { //get all list of players
   try { 
     await client.connect(); 
@@ -98,7 +108,6 @@ app.get('/json/player-list', async(req, res) => { //get all list of players
   }  catch (err) { res.status(500).send(err); 
   } finally { await client.close(); }
 });
-
 
 app.post('/json/create-data',async function (req, res) {
   // Sending request to create a data
